@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Камень-Ножницы-Бумага-Ящерица-Спок — Лобби 2 игрока</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>КНБ Блиц — дуэль 1×1</h1>
+    <div class="nick-box">
+      <span class="muted">Твой ник:</span>
+      <span id="nickname" class="nickname-pill">—</span>
+      <button id="changeNickBtn" class="btn">Сменить ник</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="about" class="card">
+      <h2>Как играть</h2>
+      <div class="howto">
+        <p>1) Создайте лобби или присоединитесь.</p>
+        <p>2) Правила:</p>
+        <ul class="rules">
+          <li>🗿 бьёт ✂️ и придавливает 🦎</li>
+          <li>✂️ режут 📄 и обезглавливают 🦎</li>
+          <li>📄 накрывает 🗿 и опровергает 🖖</li>
+          <li>🦎 ест 📄 и травит 🖖</li>
+          <li>🖖 ломает ✂️ и испаряет 🗿</li>
+        </ul>
+        <p>3) На ход — 15 секунд.</p>
+        <p>4) Победитель — на экране.</p>
+      </div>
+    </section>
+
+    <section id="lobbyActions" class="card">
+      <h2>Лобби</h2>
+      <div class="actions">
+        <button id="createLobbyBtn" class="btn primary">Создать лобби</button>
+        <input id="joinCodeInput" type="text" maxlength="4" placeholder="КОД" class="code-input" />
+        <button id="joinLobbyBtn" class="btn">Присоединиться</button>
+      </div>
+      <div class="lobby-list">
+        <h3>Доступные лобби</h3>
+        <ul id="lobbiesUl"></ul>
+      </div>
+    </section>
+
+    <section id="room" class="card hidden">
+      <div class="room-header">
+        <h2>Комната <span id="roomCode"></span></h2>
+        <div class="room-links">
+          <button id="leaveToNewBtn" class="btn danger">В новый матч</button>
+        </div>
+      </div>
+
+      <div class="players">
+        <div class="player" id="hostBox">
+          <div class="avatar" id="hostAvatar">?</div>
+          <div class="name" id="hostName">@—</div>
+          <span class="badge">Хост</span>
+        </div>
+        <div class="vs">VS</div>
+        <div class="player" id="guestBox">
+          <div class="avatar" id="guestAvatar">?</div>
+          <div class="name" id="guestName">@—</div>
+          <span class="badge">Гость</span>
+        </div>
+      </div>
+
+      <div class="status-line">
+        <span id="statusText">Ожидание второго игрока…</span>
+        <span id="timer" class="timer hidden">15</span>
+      </div>
+
+      <div id="choices" class="choices">
+        <button class="choice" data-move="rock">🗿</button>
+        <button class="choice" data-move="paper">📄</button>
+        <button class="choice" data-move="scissors">✂️</button>
+        <button class="choice" data-move="lizard">🦎</button>
+        <button class="choice" data-move="spock">🖖</button>
+      </div>
+
+      <div id="reveal" class="reveal hidden">
+        <div class="emoji left" id="revealLeft">❓</div>
+        <div class="emoji right" id="revealRight">❓</div>
+        <div class="reason" id="reasonText"></div>
+      </div>
+
+      <div id="resultBanner" class="result-banner hidden">
+        <div id="resultText" class="result-text">—</div>
+        <div class="result-actions">
+          <button id="rematchBtn" class="btn primary">Реванш</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span class="muted">Онлайн режим</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+  <script>
+    // Fallback CSS variable for iOS notch safe area if needed
+    document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
+    window.addEventListener('resize', () => {
+      document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
+    });
+  </script>
+</body>
+</html>

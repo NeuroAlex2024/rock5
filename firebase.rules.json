@@ -1,0 +1,59 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": "auth != null",
+
+    "lobbies": {
+      ".indexOn": ["updatedAt", "status"],
+      "$code": {
+        ".validate": "newData.hasChildren(['code','status','host'])",
+        "host": {
+          "uid": { ".validate": "newData.isString()" },
+          "name": { ".validate": "newData.isString()" }
+        },
+        "guest": {
+          ".validate": "newData.hasChildren(['uid','name'])",
+          "uid": { ".validate": "newData.isString()" },
+          "name": { ".validate": "newData.isString()" }
+        },
+        "status": {
+          ".validate": "newData.val().matches(/^(waiting|playing|closed)$/)"
+        },
+        "code": { ".validate": "newData.val().matches(/^[A-Z]{4}$/)" },
+        "currentRoundId": {
+          ".validate": "newData.isString() || newData.val() == null"
+        },
+        "updatedAt": { ".validate": "newData.isNumber()" }
+      }
+    },
+
+    "rounds": {
+      "$code": {
+        "$roundId": {
+          "moves": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && !data.exists()",
+              ".validate": "newData.val().matches(/^(rock|paper|scissors|lizard|spock)$/)"
+            }
+          },
+          "result": {
+            ".write": "auth != null && !data.exists()",
+            "winner": { ".validate": "newData.val() == null || newData.isString()" },
+            "reasonKey": { ".validate": "newData.isString()" },
+            "decidedAt": { ".validate": "newData.exists()" }
+          },
+          "deadline": { ".validate": "newData.isNumber()" }
+        }
+      }
+    },
+
+    "presence": {
+      "$code": {
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid",
+          ".validate": "newData.val() === true"
+        }
+      }
+    }
+  }
+}
